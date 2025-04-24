@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ATS.DeviceStateReporter": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

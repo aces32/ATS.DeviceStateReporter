@@ -1,0 +1,65 @@
+## Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Rider and VS Code
+.idea/
+.vscode/
+
+## Visual Studio
+.vs/
+*.psess
+*.vsp
+*.vspx
+*.pdb
+*.cache
+*.dbmdl
+
+## NuGet
+*.nupkg
+# The packages folder can be ignored if you're using PackageReference
+**/packages/
+*.snupkg
+
+## Dotnet-specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.log
+
+## Docker
+docker-compose.override.yml
+.env
+.dockerignore
+
+## Test results
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+## Logs
+*.log
+
+## Others
+_ReSharper*/
+*.sln.ide
+*.sln.cache
+*.tlog/
+*.tmp
+*.bak
+*.orig
+*.rej
+
+##
