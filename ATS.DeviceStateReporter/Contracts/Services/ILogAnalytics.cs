@@ -4,10 +4,6 @@ namespace ATS.DeviceStateReporter.Contracts.Services
 {
     public interface ILogAnalytics
     {
-        void Analyze(List<StatePeriod> periods);
-        TimeSpan GetTotalRunningTime();
-        TimeSpan GetTotalDowntime();
-        double GetAvailabilityPercentage();
-        List<(int AlarmCode, TimeSpan Duration)> GetTopAlarms(int topN);
+        LogAnalyticsReport Analyze(List<StatePeriod> periods, int topNAlarms = 5);
     }
 }
