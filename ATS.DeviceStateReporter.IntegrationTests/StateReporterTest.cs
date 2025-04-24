@@ -1,5 +1,7 @@
-﻿using ATS.DeviceStateReporter.Infrastructure;
+﻿using ATS.DeviceStateReporter.Contracts.Services;
+using ATS.DeviceStateReporter.Infrastructure;
 using ATS.DeviceStateReporter.Services;
+using ATS.DeviceStateReporter.Services.Analytics;
 
 namespace ATS.DeviceStateReporter.IntegrationTests
 {
@@ -12,6 +14,11 @@ namespace ATS.DeviceStateReporter.IntegrationTests
                                             faulted,2023-04-01T11:00:00Z,102
                                             running,2023-04-01T12:00:00Z,";
 
+        private ILogAnalytics CreateAnalytics()
+        {
+            return new LogAnalytics(new AlarmTracker(), new MetricsCalculator());
+        }
+
         [Fact]
         public void FullPipeline_ShouldCalculateCorrectValues()
         {
@@ -21,20 +28,20 @@ namespace ATS.DeviceStateReporter.IntegrationTests
 
             var parser = new StateCsvParser();
             var processor = new StateReportProcessor();
-            var analytics = new LogAnalytics();
+            var analytics = CreateAnalytics();
 
             // Act
             var entries = parser.Parse(tempFile);
             var periods = processor.GeneratePeriods(entries);
-            analytics.Analyze(periods);
+            var report = analytics.Analyze(periods);
 
             // Assert
             Assert.Equal(5, entries.Count);
-            Assert.True(analytics.GetTotalRunningTime().TotalMinutes > 0);
-            Assert.True(analytics.GetTotalDowntime().TotalMinutes > 0);
-            Assert.InRange(analytics.GetAvailabilityPercentage(), 50, 100);
+            Assert.True(report.TotalRunningTime.TotalMinutes > 0);
+            Assert.True(report.TotalDowntime.TotalMinutes > 0);
+            Assert.InRange(report.AvailabilityPercentage, 50, 100);
 
-            var topAlarms = analytics.GetTopAlarms(2);
+            var topAlarms = report.TopAlarms;
             Assert.Contains(topAlarms, a => a.AlarmCode == 101);
             Assert.Contains(topAlarms, a => a.AlarmCode == 102);
 

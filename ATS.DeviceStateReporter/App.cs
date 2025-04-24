@@ -33,8 +33,8 @@ namespace ATS.DeviceStateReporter
 
                 var entries = _stateCsvParser.Parse(filePath);
                 var periods = _stateReportProcessor.GeneratePeriods(entries);
-                _logAnalytics.Analyze(periods);
-                _logAnalytics.WriteAnalyticsToConsole();
+                var reports = _logAnalytics.Analyze(periods);
+                reports.WriteAnalyticsToConsole();
             }
             catch (FileNotFoundException ex)
             {
